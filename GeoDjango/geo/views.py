@@ -8,7 +8,8 @@ class IndexView(View):
 		city = None
 		while not city:
 			ret = get_client_data()
-			city = ret['city']
+			if ret:
+				city = ret['city']
 
 		query_term = request.GET.get('key',None)
 		local = request.GET.get('location',None)

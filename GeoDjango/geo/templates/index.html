@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+
+{%block main%}
+<div class="row">
+	<div class="col-sm-6">
+		<form action="{%url 'geo:index'%}">
+			<div class="form-group">
+				<h1><a href="{%url 'geo:index'%}">Buscador</a></h1>
+				<h4>[{{city}}] {% if country %}[{{country}}]{% endif %}</h4>
+			</div>
+			<div class="form-group">
+				<input type="text" name="key" class="form-control" placeholder="Type your search">
+				<small id="keyHelp" class="form-text text-muted">Like: Mexican Food, Brazilian Food, Asian Food</small>
+			</div>
+			<div class="form-group">
+				<input type="text" name="location" class="form-control" placeholder="Type your location">
+				<small id="keyHelp" class="form-text text-muted"></small>
+			</div>
+			<button type="submit" class="btn btn-primray">Search</button>
+		</form>
+		{% if 'error' in items %}
+			<h3>Nothing was found</h3>
+		{% elif busca and items.businesses|length < 1 %}
+			<h3>No results for your search</h3>
+		{% elif city and items%}
+			<h2>Results of your search</h2>
+			{% for obj in items.businesses  %}
+				<span class="text-info">{{obj.name}} {{city}}</span>
+			{% endfor %}
+		{% endif %}
+	</div>							
+</div>
+{% if city and items|length > 1 %}
+	{% include "maps.html" %}
+{% endif %}
+{%endblock main%}
